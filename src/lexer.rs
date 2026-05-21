@@ -29,6 +29,12 @@ impl Lexer {
             b')' => new_token(TokenType::RPARAM, self.ch),
             b',' => new_token(TokenType::COMMA, self.ch),
             b'+' => new_token(TokenType::PLUS, self.ch),
+            b'-' => new_token(TokenType::MINUS, self.ch),
+            b'*' => new_token(TokenType::ASTERISK, self.ch),
+            b'/' => new_token(TokenType::SLASH, self.ch),
+            b'!' => new_token(TokenType::BANG, self.ch),
+            b'<' => new_token(TokenType::LT, self.ch),
+            b'>' => new_token(TokenType::GT, self.ch),
             b'{' => new_token(TokenType::LBRACE, self.ch),
             b'}' => new_token(TokenType::RBRACE, self.ch),
             0 => Token::new(TokenType::EOF, ""),
@@ -108,6 +114,9 @@ mod tests {
     };
 
     let result=add(five,ten);
+    !-/*5;
+    5 < 10 > 5;
+
     "#;
         let tests = vec![
             Token::new(TokenType::LET, "let"),

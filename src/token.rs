@@ -8,6 +8,13 @@ pub enum TokenType {
 
     ASSIGN,
     PLUS,
+    MINUS,
+    BANG,
+    ASTERISK,
+    SLASH,
+
+    LT,
+    GT,
 
     COMMA,
     SEMICOLON,
@@ -30,6 +37,12 @@ impl TokenType {
             TokenType::INT => "INT",
             TokenType::ASSIGN => "=",
             TokenType::PLUS => "+",
+            TokenType::MINUS => "-",
+            TokenType::ASTERISK => "*",
+            TokenType::SLASH => "/",
+            TokenType::BANG => "!",
+            TokenType::LT => "<",
+            TokenType::GT => ">",
             TokenType::COMMA => ",",
             TokenType::SEMICOLON => ";",
             TokenType::LPARAM => "(",
