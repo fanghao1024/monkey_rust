@@ -21,7 +21,7 @@ impl Lexer {
 
     pub fn next_token(&mut self) -> Token {
         self.skipWhitespace();
-
+        println!("ch:{:?}", self.ch as char);
         let tok = match self.ch {
             b'=' => new_token(TokenType::ASSIGN, self.ch),
             b';' => new_token(TokenType::SEMICOLON, self.ch),
@@ -36,7 +36,9 @@ impl Lexer {
                 if is_letter(self.ch) {
                     let literal = self.read_identifier();
                     let token_type = token::lookup_ident(&literal);
-                    Token::new(token_type, literal)
+                    return Token::new(token_type, literal);
+                } else if is_digit(self.ch) {
+                    return Token::new(TokenType::INT, self.read_number());
                 } else {
                     new_token(TokenType::ILLEGAL, self.ch)
                 }
@@ -64,6 +66,14 @@ impl Lexer {
         String::from_utf8_lossy(&self.input[position..self.position]).into_owned()
     }
 
+    fn read_number(&mut self) -> String {
+        let position = self.position;
+        while is_digit(self.ch) {
+            self.read_char();
+        }
+        String::from_utf8_lossy(&self.input[position..self.position]).into_owned()
+    }
+
     fn skipWhitespace(&mut self) {
         while matches!(self.ch, b' ' | b'\t' | b'\n' | b'\r') {
             self.read_char();
@@ -77,6 +87,10 @@ fn new_token(token_type: TokenType, ch: u8) -> Token {
 
 fn is_letter(ch: u8) -> bool {
     (b'a' <= ch && ch <= b'z') || (b'A' <= ch && ch <= b'Z') || ch == b'_'
+}
+
+fn is_digit(ch: u8) -> bool {
+    b'0' <= ch && ch <= b'9'
 }
 
 #[cfg(test)]
@@ -105,10 +119,11 @@ mod tests {
             Token::new(TokenType::IDENT, "ten"),
             Token::new(TokenType::ASSIGN, "="),
             Token::new(TokenType::INT, "10"),
+            Token::new(TokenType::SEMICOLON, ";"),
             Token::new(TokenType::LET, "let"),
             Token::new(TokenType::IDENT, "add"),
             Token::new(TokenType::ASSIGN, "="),
-            Token::new(TokenType::IDENT, "fn"),
+            Token::new(TokenType::FUNCTION, "fn"),
             Token::new(TokenType::LPARAM, "("),
             Token::new(TokenType::IDENT, "x"),
             Token::new(TokenType::COMMA, ","),
