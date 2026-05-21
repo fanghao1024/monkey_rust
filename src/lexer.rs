@@ -20,7 +20,7 @@ impl Lexer {
     }
 
     pub fn next_token(&mut self) -> Token {
-        self.skipWhitespace();
+        self.skip_whitespace();
         println!("ch:{:?}", self.ch as char);
         let tok = match self.ch {
             b'=' => new_token(TokenType::ASSIGN, self.ch),
@@ -80,7 +80,7 @@ impl Lexer {
         String::from_utf8_lossy(&self.input[position..self.position]).into_owned()
     }
 
-    fn skipWhitespace(&mut self) {
+    fn skip_whitespace(&mut self) {
         while matches!(self.ch, b' ' | b'\t' | b'\n' | b'\r') {
             self.read_char();
         }
@@ -154,6 +154,18 @@ mod tests {
             Token::new(TokenType::COMMA, ","),
             Token::new(TokenType::IDENT, "ten"),
             Token::new(TokenType::RPARAM, ")"),
+            Token::new(TokenType::SEMICOLON, ";"),
+            Token::new(TokenType::BANG, "!"),
+            Token::new(TokenType::MINUS, "-"),
+            Token::new(TokenType::SLASH, "/"),
+            Token::new(TokenType::ASTERISK, "*"),
+            Token::new(TokenType::INT, "5"),
+            Token::new(TokenType::SEMICOLON, ";"),
+            Token::new(TokenType::INT, "5"),
+            Token::new(TokenType::LT, "<"),
+            Token::new(TokenType::INT, "10"),
+            Token::new(TokenType::GT, ">"),
+            Token::new(TokenType::INT, "5"),
             Token::new(TokenType::SEMICOLON, ";"),
         ];
         let mut lexer = Lexer::new(input);
