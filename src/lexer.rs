@@ -23,7 +23,14 @@ impl Lexer {
         self.skip_whitespace();
         println!("ch:{:?}", self.ch as char);
         let tok = match self.ch {
-            b'=' => new_token(TokenType::ASSIGN, self.ch),
+            b'=' => {
+                if self.peek_char() == b'=' {
+                    self.read_char();
+                    Token::new(TokenType::EQ, "==")
+                } else {
+                    new_token(TokenType::ASSIGN, self.ch)
+                }
+            }
             b';' => new_token(TokenType::SEMICOLON, self.ch),
             b'(' => new_token(TokenType::LPARAM, self.ch),
             b')' => new_token(TokenType::RPARAM, self.ch),
@@ -32,7 +39,14 @@ impl Lexer {
             b'-' => new_token(TokenType::MINUS, self.ch),
             b'*' => new_token(TokenType::ASTERISK, self.ch),
             b'/' => new_token(TokenType::SLASH, self.ch),
-            b'!' => new_token(TokenType::BANG, self.ch),
+            b'!' => {
+                if self.peek_char() == b'=' {
+                    self.read_char();
+                    Token::new(TokenType::NOT_EQ, "!=")
+                } else {
+                    new_token(TokenType::BANG, self.ch)
+                }
+            }
             b'<' => new_token(TokenType::LT, self.ch),
             b'>' => new_token(TokenType::GT, self.ch),
             b'{' => new_token(TokenType::LBRACE, self.ch),
@@ -85,6 +99,14 @@ impl Lexer {
             self.read_char();
         }
     }
+
+    fn peek_char(&self) -> u8 {
+        if self.read_position >= self.input.len() {
+            return 0;
+        } else {
+            return self.input[self.read_position];
+        }
+    }
 }
 
 fn new_token(token_type: TokenType, ch: u8) -> Token {
@@ -122,6 +144,9 @@ mod tests {
     } else {
      return false;
     }
+
+    10 == 10;
+    10 != 10;
     "#;
         let tests = vec![
             Token::new(TokenType::LET, "let"),
@@ -189,6 +214,14 @@ mod tests {
             Token::new(TokenType::FALSE, "false"),
             Token::new(TokenType::SEMICOLON, ";"),
             Token::new(TokenType::RBRACE, "}"),
+            Token::new(TokenType::INT, "10"),
+            Token::new(TokenType::EQ, "=="),
+            Token::new(TokenType::INT, "10"),
+            Token::new(TokenType::SEMICOLON, ";"),
+            Token::new(TokenType::INT, "10"),
+            Token::new(TokenType::NOT_EQ, "!="),
+            Token::new(TokenType::INT, "10"),
+            Token::new(TokenType::SEMICOLON, ";"),
         ];
         let mut lexer = Lexer::new(input);
         for (i, expected) in tests.into_iter().enumerate() {

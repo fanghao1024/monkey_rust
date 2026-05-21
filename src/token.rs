@@ -31,6 +31,8 @@ pub enum TokenType {
     RETURN,
     TRUE,
     FALSE,
+    EQ,
+    NOT_EQ,
 }
 
 impl TokenType {
@@ -61,6 +63,8 @@ impl TokenType {
             TokenType::RETURN => "RETURN",
             TokenType::TRUE => "TRUE",
             TokenType::FALSE => "FALSE",
+            TokenType::EQ => "==",
+            TokenType::NOT_EQ => "!=",
         }
     }
 }
