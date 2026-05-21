@@ -1,0 +1,18 @@
+# Rust 编译输出
+/target
+Cargo.lock
+
+# 编辑器配置
+.idea
+.vscode
+*.swp
+*.swo
+
+# 隐私/临时文件
+.env
+*.log
+*.tmp
+
+# 系统文件
+.DS_Store
+Thumbs.db
