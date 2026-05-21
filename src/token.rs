@@ -26,6 +26,11 @@ pub enum TokenType {
 
     FUNCTION,
     LET,
+    IF,
+    ELSE,
+    RETURN,
+    TRUE,
+    FALSE,
 }
 
 impl TokenType {
@@ -50,7 +55,12 @@ impl TokenType {
             TokenType::LBRACE => "{",
             TokenType::RBRACE => "}",
             TokenType::FUNCTION => "FUNCTION",
-            TokenType::LET => "let",
+            TokenType::LET => "LET",
+            TokenType::IF => "IF",
+            TokenType::ELSE => "ELSE",
+            TokenType::RETURN => "RETURN",
+            TokenType::TRUE => "TRUE",
+            TokenType::FALSE => "FALSE",
         }
     }
 }
@@ -73,6 +83,11 @@ pub fn lookup_ident(ident: &str) -> TokenType {
     match ident {
         "fn" => TokenType::FUNCTION,
         "let" => TokenType::LET,
+        "if" => TokenType::IF,
+        "else" => TokenType::ELSE,
+        "return" => TokenType::RETURN,
+        "true" => TokenType::TRUE,
+        "false" => TokenType::FALSE,
         _ => TokenType::IDENT,
     }
 }

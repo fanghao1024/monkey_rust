@@ -117,6 +117,11 @@ mod tests {
     !-/*5;
     5 < 10 > 5;
 
+    if (5<10){
+     return true;
+    } else {
+     return false;
+    }
     "#;
         let tests = vec![
             Token::new(TokenType::LET, "let"),
@@ -167,6 +172,23 @@ mod tests {
             Token::new(TokenType::GT, ">"),
             Token::new(TokenType::INT, "5"),
             Token::new(TokenType::SEMICOLON, ";"),
+            Token::new(TokenType::IF, "if"),
+            Token::new(TokenType::LPARAM, "("),
+            Token::new(TokenType::INT, "5"),
+            Token::new(TokenType::LT, "<"),
+            Token::new(TokenType::INT, "10"),
+            Token::new(TokenType::RPARAM, ")"),
+            Token::new(TokenType::LBRACE, "{"),
+            Token::new(TokenType::RETURN, "return"),
+            Token::new(TokenType::TRUE, "true"),
+            Token::new(TokenType::SEMICOLON, ";"),
+            Token::new(TokenType::RBRACE, "}"),
+            Token::new(TokenType::ELSE, "else"),
+            Token::new(TokenType::LBRACE, "{"),
+            Token::new(TokenType::RETURN, "return"),
+            Token::new(TokenType::FALSE, "false"),
+            Token::new(TokenType::SEMICOLON, ";"),
+            Token::new(TokenType::RBRACE, "}"),
         ];
         let mut lexer = Lexer::new(input);
         for (i, expected) in tests.into_iter().enumerate() {
