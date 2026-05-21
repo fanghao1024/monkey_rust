@@ -1,5 +1,7 @@
+use std::fmt;
+
 #[allow(non_camel_case_types)]
-#[derive(Debug, PartialEq)]
+#[derive(PartialEq)]
 pub enum TokenType {
     ILLEGAL,
     EOF,
@@ -70,6 +72,18 @@ impl TokenType {
     }
 }
 
+impl fmt::Debug for TokenType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+impl fmt::Display for TokenType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
 pub struct Token {
     pub token_type: TokenType,
     pub literal: String,
@@ -81,6 +95,12 @@ impl Token {
             token_type: token_type,
             literal: literal.into(),
         }
+    }
+}
+
+impl fmt::Debug for Token {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{{Type:{} Literal:{}}}", self.token_type, self.literal)
     }
 }
 
